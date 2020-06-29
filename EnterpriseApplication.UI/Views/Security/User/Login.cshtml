@@ -15,8 +15,7 @@
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">Sign in to start your session</p>
 
-                    <form  asp-controller = "AccountSecurity" asp-action = "Login" method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                    <form id="loginForm"  action = "User/Login"  method="post">
                         <div class="input-group mb-3">
                             <input asp-for="userName" type="text" class="form-control" placeholder="UserName">
                             <div class="input-group-append">
@@ -24,7 +23,6 @@
                                     <span class="fas fa-user"></span>
                                 </div>
                             </div>
-                            <span asp-validation-for="userName" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
                             <input asp-for="password" type="password" class="form-control" placeholder="Password">
@@ -33,7 +31,6 @@
                                     <span class="fas fa-lock"></span>
                                 </div>
                             </div>
-                            <span asp-validation-for="password" class="text-danger"></span>
                         </div>
                         <div class="row">
                             @*<div class="col-8">
@@ -46,7 +43,7 @@
                             </div>*@
                             <!-- /.col -->
                             <div class="col-12">
-                                <button type="submit" class="btn btn-success  btn-block">Login</button>
+                                <button type="button" class="btn btn-primary  btn-block" onclick="OnSubmit()">Login</button>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -60,5 +57,23 @@
 
         </div>
     </div>
+
+<script>
+    function OnSubmit()
+    {
+        var form = $("#loginForm");
+        var actionUrl = form.attr('action');
+        var dataTobeSend = form.serialize();
+        $.post(actionUrl, dataTobeSend).done(function (response) {
+            window.location.href = response.url;
+        }).fail(function (error) {
+            var message = "";
+            error.responseJSON.forEach(function (item, index) { message += item.errorMessage + "<br/>"; });
+            toastr.error(message);
+        });
+    }
+
+        
+</script>
 
 

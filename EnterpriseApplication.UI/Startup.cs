@@ -9,6 +9,7 @@ using EnterpriseApplication.UI.Utilities.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,6 +34,15 @@ namespace EnterpriseApplication.UI
             {
                 option.Filters.Add(new GlobalAuthorizationHandler());
                 option.Filters.Add(new GlobalExceptionHandler());
+            })
+            .AddRazorRuntimeCompilation();
+            //Configure custome view path location
+            services.Configure<RazorViewEngineOptions>(o =>
+            {
+                o.ViewLocationFormats.Clear();
+                o.ViewLocationFormats.Add("/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
+                o.ViewLocationFormats.Add("/Views/Security/{1}/{0}" + RazorViewEngine.ViewExtension);
+                o.ViewLocationFormats.Add("/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
             });
         }
 
@@ -61,7 +71,7 @@ namespace EnterpriseApplication.UI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=AccountSecurity}/{action=Login}/{id?}");
+                    pattern: "{controller=User}/{action=Login}/{id?}");
             });
         }
     }

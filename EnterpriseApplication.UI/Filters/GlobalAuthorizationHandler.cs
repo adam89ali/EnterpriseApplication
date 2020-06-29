@@ -13,13 +13,13 @@ namespace EnterpriseApplication.UI.Filters
         public void OnAuthorization(AuthorizationFilterContext context)
         {
 
-            if (context.ActionDescriptor.RouteValues["controller"].ToString() == "AccountSecurity" &&
+            if (context.ActionDescriptor.RouteValues["controller"].ToString() == "User" &&
                 context.ActionDescriptor.RouteValues["action"].ToString() == "Login")
                 return;
             if (context.HttpContext.User.Identity.IsAuthenticated)
                 return;
             context.Result = new RedirectToRouteResult(new
-               RouteValueDictionary(new { controller = "AccountSecurity", Action = "Login" }));
+               RouteValueDictionary(new { controller = "User", Action = "Login" }));
 
 
         }

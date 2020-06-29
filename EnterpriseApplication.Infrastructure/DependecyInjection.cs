@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using EnterpriseApplication.Application.Security.Interface;
 using EnterpriseApplication.Infrastructure.Security.Services;
+using EnterpriseApplication.Application.Security.Repositories;
+using EnterpriseApplication.Infrastructure.Security.Repositories;
 
 namespace EnterpriseApplication.Infrastructure
 {
@@ -19,10 +21,18 @@ namespace EnterpriseApplication.Infrastructure
 
             });
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDatabaseContext>();
 
-            services.AddScoped<IApplicationUserService,ApplicationUserService>();
+            // Security Module Dependency Register
+            services.AddTransient<IApplicationUserService,ApplicationUserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
             return services;
         }
 

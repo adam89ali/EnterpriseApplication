@@ -2,6 +2,7 @@
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace EnterpriseApplication.Application.Security.Commands.Login
         public  Task<bool> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var issLoggedIn =  _applicationUserService.Login(request.userName, request.password, request.rememberMe);
+            if (!issLoggedIn) { throw new AuthenticationException(); }
             return Task.FromResult(issLoggedIn);
         }
     }

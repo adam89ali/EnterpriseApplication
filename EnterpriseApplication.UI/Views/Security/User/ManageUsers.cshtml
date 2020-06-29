@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "ListAllUsers";
+}
+@section customStyle
+{
+    <link rel="stylesheet" href="~/theme/plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="~/theme/plugins/jsgrid/jsgrid-theme.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+
+}
+<section class="content-header">
+    <h1>
+        Manage Users
+    </h1>
+</section>
+<section class="content">
+    <div>
+        <div id="placeHolder"></div>
+        <button class="btn btn-success" type="button" style="margin-bottom:10px" data-toggle="ajax-Modal" data-target="#userModal" data-url="@Url.Action("AddUser","User")"><i class="fa fa-plus"></i> Add New</button>
+        <table id="Users" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>userName</th>
+                    <th>email</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+
+</section>
+@section Scripts
+{
+    <!-- jsGrid -->
+    <script src="~/theme/plugins/jsgrid/demos/db.js"></script>
+    <script src="~/theme/plugins/jsgrid/jsgrid.min.js"></script>
+    <!-- DataTables -->
+    <script src="~/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+    <script src="~/js/DataLoader.js"></script>
+    <script src="~/js/BootstrapModalPopUpHandler.js"></script>
+
+    <script>
+        function BindDataTable(json)
+        {
+                $('#Users').DataTable({
+                    data: json,
+                    "processing": true, // for show progress bar
+                    "filter": true, // this is for disable filter (search box)
+                    "orderMulti": false, // for disable multiple column at once
+                    columns:
+                    [
+                        { "title" : "User", "data": "userName" },
+                        { "title" : "Email", "data": "email" },
+                        {
+                            "data": "userId",
+                            "render": function (id) {
+                                return "<button type='button' class='btn btn-info btn-sm' data-toggle='ajax-Modal' data-target='#userModal' data-url='@Url.Action("EditUser", "User")"+ '?id=' + id+ "'><i class='fa fa-pen'></i> Edit</button>&nbsp;<button class='btn btn-danger btn-sm' style='margin-left:5px' data-toggle='ajax-Modal' data-target='#userModal' data-url='@Url.Action("DeleteUser", "User")"+ '?id=' + id+ "'><i class='fa fa-trash'></i> Delete</button>"; },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+
+                        }
+                    ]
+                });
+        }
+        function ReloadDataTable()
+        {
+           var dtLoaderObj = new DataLoader();
+           var responseObj = dtLoaderObj.LoadData("@Url.Action("GetUsers", "User")");
+           
+            responseObj.then(json => {   
+                $('#Users').DataTable().destroy();
+                BindDataTable(json);
+                var popUpmodalObj = new ModalPopUpHandler();
+                popUpmodalObj.SetUpModalWhileShowingPopup("placeHolder");
+                popUpmodalObj.SetUpModalWhileClosingPopup("placeHolder", ReloadDataTable);
+            });
+        }
+
+      var dtLoaderObj = new DataLoader();
+      var responseObj = dtLoaderObj.LoadData("@Url.Action("GetUsers", "User")");
+        responseObj.then(json => {
+            $(document).ready(function () {
+                //console.log(json);
+                BindDataTable(json);
+                var popUpmodalObj = new ModalPopUpHandler();
+                popUpmodalObj.SetUpModalWhileShowingPopup("placeHolder");
+                popUpmodalObj.SetUpModalWhileClosingPopup("placeHolder", ReloadDataTable);
+
+            });
+        });
+
+
+
+    </script>
+}

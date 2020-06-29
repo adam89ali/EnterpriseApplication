@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using EnterpriseApplication.UI.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace EnterpriseApplication.UI.Filters
@@ -63,15 +65,30 @@ namespace EnterpriseApplication.UI.Filters
 
         private void HandleValidationException(ExceptionContext context)
         {
-            var exception = context.Exception as ValidationException;
+         const string RequestedWithHeader = "X-Requested-With";
+         const string XmlHttpRequest = "XMLHttpRequest";
+         var exception = context.Exception as ValidationException;
 
-            foreach (var error in exception.Errors)
+            // in case of ajax request we need to cater exception handling in json 
+            if(context.HttpContext.Request.Headers[RequestedWithHeader] == XmlHttpRequest)
             {
-                context.ModelState.AddModelError(string.Empty, error.ErrorMessage);
-                context.Result = new ViewResult()
+                List<ErrorViewModel> errors = new List<ErrorViewModel>(exception.Errors.Count());
+                foreach(var error in exception.Errors) 
+                { 
+                    errors.Add(new ErrorViewModel { errorMessage = error.ErrorMessage });
+                }
+                context.Result = new JsonResult(errors)
                 {
-
+                    StatusCode = (int) HttpStatusCode.BadRequest
                 };
+            }
+            else
+            {
+                foreach (var error in exception.Errors)
+                {
+                    context.ModelState.AddModelError(string.Empty, error.ErrorMessage);
+                }
+                context.Result = new ViewResult(){};
             }
            // context.Result = new BadRequestObjectResult(details);
             context.ExceptionHandled = true;

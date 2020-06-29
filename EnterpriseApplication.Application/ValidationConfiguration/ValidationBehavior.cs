@@ -29,6 +29,7 @@ namespace EnterpriseApplication.Application.ValidationConfiguration
 
             if (failures.Count != 0)
             {
+                
                 throw new ValidationException(failures);
             }
 
