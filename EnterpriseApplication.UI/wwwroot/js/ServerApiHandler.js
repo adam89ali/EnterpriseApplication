@@ -1,8 +1,18 @@
-﻿function DataLoader() {
+﻿function ServerApiHandler() {
 
-    this.LoadData = function (Url,filter)
+    this.GetData = function (url,filter)
     {
-        return fetch(Url,
+        let queryString = "";
+        if (typeof (filter) !== 'undefined')
+        {
+            Object.keys(filter).forEach((key, index) => {
+                if (filter[key] !== "") {
+                    queryString += key + "=" + filter[key] + "&";
+                }
+            });
+        }       
+        if (queryString !== "") url += "?" + queryString;
+        return fetch(url,
             {
                 method: "GET",
                 //body: JSON.stringify(todo),
