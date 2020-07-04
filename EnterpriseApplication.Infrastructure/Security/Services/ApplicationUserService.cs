@@ -21,12 +21,12 @@ namespace EnterpriseApplication.Infrastructure.Security.Services
         public bool Login(string userName, string password,bool rememberMe)
         {
             var result = _signInManager.PasswordSignInAsync(userName, password, rememberMe, false)
-                .ConfigureAwait(false).GetAwaiter().GetResult();           
+                .GetAwaiter().GetResult();
             return result.Succeeded;
         }
         public  bool LogOut()
         {
-           _signInManager.SignOutAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+           _signInManager.SignOutAsync().GetAwaiter().GetResult();
             return true;
         }
     }

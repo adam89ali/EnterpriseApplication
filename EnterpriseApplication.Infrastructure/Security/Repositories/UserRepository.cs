@@ -46,32 +46,30 @@ namespace EnterpriseApplication.Infrastructure.Security.Repositories
 
             return result;
         }
-
         public async Task<Guid> AddUser(AddUserCommand command)
         {
             var userId = Guid.NewGuid();
             var newUser = new ApplicationUser { Id = userId, UserName = command.userName,NormalizedUserName = command.userName.ToUpper(), Email = command.email, NormalizedEmail = command.email.ToUpper(), 
                 EmailConfirmed = true,SecurityStamp = string.Empty};
-           var result =  await _userManager.CreateAsync(newUser, command.password).ConfigureAwait(false);    
+           var result =  await _userManager.CreateAsync(newUser, command.password);    
             return userId;
         }
-
         public async Task<bool> DeleteUser(DeleteUserCommand command)
         {
-            var existingUser = await _userManager.FindByIdAsync(command.userId.ToString()).ConfigureAwait(false);
-            var result = await _userManager.DeleteAsync(existingUser).ConfigureAwait(false);
+            var existingUser = await _userManager.FindByIdAsync(command.userId.ToString());
+            var result = await _userManager.DeleteAsync(existingUser);
             return result.Succeeded;
         }
         public async Task<bool> EditUser(EditUserCommand command)
         {
             var hasher = new PasswordHasher<ApplicationUser>();
-            var existingUser = await _userManager.FindByIdAsync(command.userId.ToString()).ConfigureAwait(false);
+            var existingUser = await _userManager.FindByIdAsync(command.userId.ToString());
             existingUser.UserName = command.userName;
             existingUser.NormalizedUserName = command.userName.ToUpper();
             existingUser.Email = command.email;
             existingUser.NormalizedEmail = command.email.ToUpper();
             existingUser.PasswordHash = hasher.HashPassword(null, command.password);
-            var result = await _userManager.UpdateAsync(existingUser).ConfigureAwait(false);
+            var result = await _userManager.UpdateAsync(existingUser);
             return result.Succeeded;
         }
     }
