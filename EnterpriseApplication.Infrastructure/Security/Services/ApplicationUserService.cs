@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EnterpriseApplication.Infrastructure.Security.Services
 {
@@ -17,17 +18,16 @@ namespace EnterpriseApplication.Infrastructure.Security.Services
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public bool Login(string userName, string password,bool rememberMe)
+        public async Task<bool> Login(string userName, string password,bool rememberMe)
         {
-            var result = _signInManager.PasswordSignInAsync(userName, password, rememberMe, false)
-                .ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult();
+            var result = await _signInManager.PasswordSignInAsync(userName, password, rememberMe, false)
+                .ConfigureAwait(false);           
             return result.Succeeded;
         }
-        public void LogOut()
+        public async Task<bool> LogOut()
         {
-            _signInManager.SignOutAsync().ConfigureAwait(false);
+           await _signInManager.SignOutAsync().ConfigureAwait(false);
+            return true;
         }
     }
 }

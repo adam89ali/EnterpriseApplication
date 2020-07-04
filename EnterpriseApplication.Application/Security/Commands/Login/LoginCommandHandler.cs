@@ -16,11 +16,11 @@ namespace EnterpriseApplication.Application.Security.Commands.Login
         {
             _applicationUserService = applicationUserService;
         }
-        public  Task<bool> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async  Task<bool> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var issLoggedIn =  _applicationUserService.Login(request.userName, request.password, request.rememberMe);
-            if (!issLoggedIn) { throw new AuthenticationException(); }
-            return Task.FromResult(issLoggedIn);
+            var issLoggedIn =  await _applicationUserService.Login(request.userName, request.password, request.rememberMe);
+            if (!issLoggedIn) { throw new AuthenticationException("Invalid UserName and Password"); }
+            return issLoggedIn;
         }
     }
 }

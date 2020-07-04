@@ -16,10 +16,10 @@ namespace EnterpriseApplication.Application.Security.Commands.EditUser
         {
             _repository = repository;
         }
-        public Task<Response<bool>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(EditUserCommand request, CancellationToken cancellationToken)
         {
-             _repository.EditUser(request);
-            return Task.FromResult(Response.Ok<bool>("Updated Successfully", false, true));
+             await _repository.EditUser(request);
+            return Response.Ok<bool>("Updated Successfully", false, true);
         }
     }
 }

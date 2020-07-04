@@ -16,10 +16,10 @@ namespace EnterpriseApplication.Application.Security.Commands.DeleteUser
         {
             _repository = repository;
         }
-        public Task<Response<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-             _repository.DeleteUser(request);
-            return Task.FromResult(Response.Ok<bool>("Deleted Successfully", false, true));
+             await _repository.DeleteUser(request);
+            return Response.Ok<bool>("Deleted Successfully", false, true);
 
         }
     }

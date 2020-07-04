@@ -16,10 +16,10 @@ namespace EnterpriseApplication.Application.Security.Commands.AddUser
         {
             _repository = repository;
         }
-        public Task<Response<Guid>> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            var result = _repository.AddUser(request).Result;
-            return Task.FromResult(Response.Ok<Guid>("Saved Successfully", false, result));
+            var result = await _repository.AddUser(request);
+            return Response.Ok<Guid>("Saved Successfully", false, result);
         }
     }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace EnterpriseApplication.UI.Filters
@@ -23,6 +24,7 @@ namespace EnterpriseApplication.UI.Filters
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 { typeof(ValidationException), HandleValidationException },
+                { typeof(AuthenticationException),HandleAuthenticationException }
               //  { typeof(NotFoundException), HandleNotFoundException },
             };
         }
@@ -93,6 +95,32 @@ namespace EnterpriseApplication.UI.Filters
            // context.Result = new BadRequestObjectResult(details);
             context.ExceptionHandled = true;
         }
+        private void HandleAuthenticationException(ExceptionContext context)
+        {
+            const string RequestedWithHeader = "X-Requested-With";
+            const string XmlHttpRequest = "XMLHttpRequest";
+            var exception = context.Exception as AuthenticationException;
+
+            // in case of ajax request we need to cater exception handling in json 
+            if (context.HttpContext.Request.Headers[RequestedWithHeader] == XmlHttpRequest)
+            {
+                List<ErrorViewModel> errors = new List<ErrorViewModel>(1);
+                errors.Add(new ErrorViewModel { errorMessage = exception.Message });
+                context.Result = new JsonResult(errors)
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest
+                };
+            }
+            else
+            {
+               
+                context.ModelState.AddModelError(string.Empty, exception.Message);
+                context.Result = new ViewResult() { };
+            }
+            // context.Result = new BadRequestObjectResult(details);
+            context.ExceptionHandled = true;
+        }
+
 
         //private void HandleNotFoundException(ExceptionContext context)
         //{
@@ -109,9 +137,9 @@ namespace EnterpriseApplication.UI.Filters
 
         //    context.ExceptionHandled = true;
         //}
-        
-        
-        
+
+
+
         //public void OnException(ExceptionContext context)
         //{
 

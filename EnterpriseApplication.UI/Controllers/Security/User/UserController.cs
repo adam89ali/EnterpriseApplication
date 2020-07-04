@@ -41,11 +41,10 @@ namespace EnterpriseApplication.UI.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-             Mediator.Send(new LogOutCommand());
+             await Mediator.Send(new LogOutCommand());
             return RedirectToAction("Login", "User");
-            
         }
         [HttpGet]
         public IActionResult ManageUsers()
