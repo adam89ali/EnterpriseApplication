@@ -8,7 +8,13 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <style>
+        tfoot 
+        {
 
+            display: table-header-group;
+        }
+    </style>
 
 }
 <section class="content-header">
@@ -29,6 +35,13 @@
                         <th></th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th>userName</th>
+                        <th>email</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -96,8 +109,8 @@
       });
 
         // individual column search box configuration
-        $('#Users thead tr').clone(true).appendTo('#Users thead');
-        $('#Users thead tr:eq(1) th').each(function (i) {
+        //$('#Users thead tr').clone(true).appendTo('#Users thead');
+        $('#Users tfoot tr:eq(0) th').each(function (i) {
             var title = $(this).text();
             if (title != "") {
                 $(this).html('<input id="searchId_' + i + '" type="search" class = "form-control form-control-sm" placeholder="Search ' + title + '" />');

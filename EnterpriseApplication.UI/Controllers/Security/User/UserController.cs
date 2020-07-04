@@ -57,7 +57,7 @@ namespace EnterpriseApplication.UI.Controllers
         public async Task<JsonResult> GetUsers(GetUsersQuery query)
         {
             var result = await Mediator.Send(query);
-            return Json(result);
+            return Json(result.Data);
         }
         [HttpGet]
         public IActionResult AddUser()
@@ -69,33 +69,33 @@ namespace EnterpriseApplication.UI.Controllers
         public async Task<IActionResult> AddUser(AddUserCommand command)
         {
             var result = await Mediator.Send(command);
-            return Ok("Added Successfully");
+            return Ok(result.Message);
         }
         [HttpGet]
         public async Task<IActionResult> EditUser(Guid id)
         {
             ViewBag.accessMode = AccessMode.EDIT;
             var result = await Mediator.Send(new GetUserByIdQuery { userId = id });
-            return PartialView("AddorEditUser",result);
+            return PartialView("AddorEditUser",result.Data);
         }
         [HttpPost]
         public async Task<IActionResult> EditUser(EditUserCommand command)
         {
             var result = await Mediator.Send(command);
-            return Ok("Updated Successfully");
+            return Ok(result.Message);
         }
         [HttpGet]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             ViewBag.accessMode = AccessMode.DELETE;
             var result = await Mediator.Send(new GetUserByIdQuery { userId = id });
-            return PartialView("AddorEditUser", result);
+            return PartialView("AddorEditUser", result.Data);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteUser(DeleteUserCommand command)
         {
             var result = await Mediator.Send(command);
-            return Ok("Deleted Successfully");
+            return Ok(result.Message);
         }
 
     }

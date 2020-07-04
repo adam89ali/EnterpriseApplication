@@ -1,4 +1,5 @@
-﻿using EnterpriseApplication.Application.Security.Repositories;
+﻿using EnterpriseApplication.Application.Common;
+using EnterpriseApplication.Application.Security.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EnterpriseApplication.Application.Security.Queries.GetUsers
 {
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IList<UserDto>>
+    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Response<IList<UserDto>>>
     {
         private readonly IUserRepository _repository;
         public GetUsersQueryHandler(IUserRepository repository)
@@ -16,12 +17,12 @@ namespace EnterpriseApplication.Application.Security.Queries.GetUsers
             _repository = repository;
         }
 
-        public Task<IList<UserDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public Task<Response<IList<UserDto>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             var users = _repository.GetUsers(request);
             //var users = new List<UserDto>();
             //users.Add(new UserDto { UserName = "adam", Email = "test@gmail.com", Password = "12345" });
-            return Task.FromResult(users);
+            return Task.FromResult(Response.Ok<IList<UserDto>>("", false, users));
         }
     }
 }
