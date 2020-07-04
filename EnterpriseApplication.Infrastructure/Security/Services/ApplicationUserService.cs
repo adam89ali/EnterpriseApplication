@@ -18,15 +18,15 @@ namespace EnterpriseApplication.Infrastructure.Security.Services
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public async Task<bool> Login(string userName, string password,bool rememberMe)
+        public bool Login(string userName, string password,bool rememberMe)
         {
-            var result = await _signInManager.PasswordSignInAsync(userName, password, rememberMe, false)
-                .ConfigureAwait(false);           
+            var result = _signInManager.PasswordSignInAsync(userName, password, rememberMe, false)
+                .ConfigureAwait(false).GetAwaiter().GetResult();           
             return result.Succeeded;
         }
-        public async Task<bool> LogOut()
+        public  bool LogOut()
         {
-           await _signInManager.SignOutAsync().ConfigureAwait(false);
+           _signInManager.SignOutAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             return true;
         }
     }

@@ -16,10 +16,9 @@ namespace EnterpriseApplication.Application.Security.Commands.Logout
         {
             _applicationUserService = applicationUserService;
         }
-        public async Task<bool> Handle(LogOutCommand request, CancellationToken cancellationToken)
+        public  Task<bool> Handle(LogOutCommand request, CancellationToken cancellationToken)
         {
-            await _applicationUserService.LogOut();
-            return true;
+            return Task.FromResult(_applicationUserService.LogOut());
         }
     }
 }

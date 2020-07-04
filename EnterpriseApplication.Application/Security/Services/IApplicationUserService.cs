@@ -7,7 +7,7 @@ namespace EnterpriseApplication.Application.Security.Interface
 {
     public interface IApplicationUserService
     {
-        public Task<bool> Login(string userName, string password,bool rememberMe);
-        public Task<bool> LogOut();
+        public bool Login(string userName, string password,bool rememberMe);
+        public bool LogOut();
     }
 }

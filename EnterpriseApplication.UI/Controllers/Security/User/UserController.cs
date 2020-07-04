@@ -31,7 +31,7 @@ namespace EnterpriseApplication.UI.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginCommand command)
+        public async  Task<IActionResult> Login(LoginCommand command)
         {           
                 await Mediator.Send(command);
                 return Json(new { url = Url.Action("index", "home") });  
@@ -41,9 +41,9 @@ namespace EnterpriseApplication.UI.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async  Task<IActionResult> Logout()
         {
-             await Mediator.Send(new LogOutCommand());
+            await Mediator.Send(new LogOutCommand());
             return RedirectToAction("Login", "User");
         }
         [HttpGet]
