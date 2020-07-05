@@ -33,6 +33,7 @@ namespace EnterpriseApplication.Infrastructure
             // Security Module Dependency Register
             services.AddTransient<IApplicationUserService,ApplicationUserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
             return services;
         }
 
