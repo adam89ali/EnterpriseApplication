@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnterpriseApplication.Application.Common.Constant;
-using EnterpriseApplication.Application.Security.Commands.AddUser;
-using EnterpriseApplication.Application.Security.Commands.DeleteUser;
-using EnterpriseApplication.Application.Security.Commands.Login;
-using EnterpriseApplication.Application.Security.Commands.Logout;
-using EnterpriseApplication.Application.Security.Commands.EditUser;
-using EnterpriseApplication.Application.Security.Queries.GetUsers;
 using EnterpriseApplication.UI.Models.AccountSecurity;
 using EnterpriseApplication.UI.Utilities.Constants;
 using FluentValidation;
@@ -17,6 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Newtonsoft.Json;
 using System.Security.Authentication;
+using EnterpriseApplication.Application.Security.ManageUsers.Queries.GetUsers;
+using EnterpriseApplication.Application.Security.ManageUsers.Commands.AddUser;
+using EnterpriseApplication.Application.Security.ManageUsers.Commands.EditUser;
+using EnterpriseApplication.Application.Security.ManageUsers.Commands.DeleteUser;
+using EnterpriseApplication.Application.Security.Authentication.Commands.Login;
+using EnterpriseApplication.Application.Security.Authentication.Commands.Logout;
 
 namespace EnterpriseApplication.UI.Controllers
 {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnterpriseApplication.Application.Common.Constant;
-using EnterpriseApplication.Application.Security.Commands.AddRole;
-using EnterpriseApplication.Application.Security.Commands.DeleteRole;
-using EnterpriseApplication.Application.Security.Commands.EditRole;
-using EnterpriseApplication.Application.Security.Queries.GetRoles;
+using EnterpriseApplication.Application.Security.ManageRoles.Commands.AddRole;
+using EnterpriseApplication.Application.Security.ManageRoles.Commands.DeleteRole;
+using EnterpriseApplication.Application.Security.ManageRoles.Commands.EditRole;
+using EnterpriseApplication.Application.Security.ManageRoles.Queries.GetRoles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

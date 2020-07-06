@@ -1,10 +1,9 @@
 ﻿using AutoMapper.QueryableExtensions;
-using EnterpriseApplication.Application.Security.Commands.AddUser;
-using EnterpriseApplication.Application.Security.Commands.DeleteUser;
-using EnterpriseApplication.Application.Security.Commands.EditUser;
-using EnterpriseApplication.Application.Security.Interface;
-using EnterpriseApplication.Application.Security.Queries.GetUsers;
-using EnterpriseApplication.Application.Security.Repositories;
+using EnterpriseApplication.Application.Security.ManageUsers.Commands.AddUser;
+using EnterpriseApplication.Application.Security.ManageUsers.Commands.DeleteUser;
+using EnterpriseApplication.Application.Security.ManageUsers.Commands.EditUser;
+using EnterpriseApplication.Application.Security.ManageUsers.Queries.GetUsers;
+using EnterpriseApplication.Application.Security.ManageUsers.Repositories;
 using EnterpriseApplication.Infrastructure.Security.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

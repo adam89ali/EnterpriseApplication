@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using EnterpriseApplication.Application.Security.Interface;
 using EnterpriseApplication.Infrastructure.Security.Services;
-using EnterpriseApplication.Application.Security.Repositories;
 using EnterpriseApplication.Infrastructure.Security.Repositories;
+using EnterpriseApplication.Application.Security.ManageUsers.Repositories;
+using EnterpriseApplication.Application.Security.ManageRoles.Repositories;
+using EnterpriseApplication.Application.Security.Authentication.Repositories;
 
 namespace EnterpriseApplication.Infrastructure
 {
@@ -31,7 +32,7 @@ namespace EnterpriseApplication.Infrastructure
                 .AddEntityFrameworkStores<ApplicationDatabaseContext>();
 
             // Security Module Dependency Register
-            services.AddTransient<IApplicationUserService,ApplicationUserService>();
+            services.AddTransient<IAuthenticationRepository,AuthenticationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             return services;

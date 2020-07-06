@@ -1,8 +1,8 @@
-﻿using EnterpriseApplication.Application.Security.Commands.AddRole;
-using EnterpriseApplication.Application.Security.Commands.DeleteRole;
-using EnterpriseApplication.Application.Security.Commands.EditRole;
-using EnterpriseApplication.Application.Security.Queries.GetRoles;
-using EnterpriseApplication.Application.Security.Repositories;
+﻿using EnterpriseApplication.Application.Security.ManageRoles.Commands.AddRole;
+using EnterpriseApplication.Application.Security.ManageRoles.Commands.DeleteRole;
+using EnterpriseApplication.Application.Security.ManageRoles.Commands.EditRole;
+using EnterpriseApplication.Application.Security.ManageRoles.Queries.GetRoles;
+using EnterpriseApplication.Application.Security.ManageRoles.Repositories;
 using EnterpriseApplication.Infrastructure.Security.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
