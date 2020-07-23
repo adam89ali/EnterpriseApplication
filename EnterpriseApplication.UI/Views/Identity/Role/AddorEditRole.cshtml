@@ -1,0 +1,66 @@
+﻿@using EnterpriseApplication.UI.Constants
+@model EnterpriseApplication.Application.Identity.Services.Roles.Get.RoleDto
+@{
+    var isFieldToBeDisabled = (ViewBag.InterfaceType == InterfaceType.VIEW || ViewBag.InterfaceType == InterfaceType.REMOVE);
+    var actionMethod = string.Empty;
+    if (ViewBag.InterfaceType == InterfaceType.ADD) { actionMethod = "AddRole"; }
+    else if (ViewBag.InterfaceType == InterfaceType.EDIT) { actionMethod = "EditRole"; }
+    else if (ViewBag.InterfaceType == InterfaceType.REMOVE) { actionMethod = "RemoveRole"; }
+
+}
+
+
+<div class="modal fade" id="RoleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelTitle">
+                    @if (ViewBag.InterfaceType == InterfaceType.REMOVE)
+                    {
+                        @("Are you sure you want to remove this?")
+                    }
+                    else
+                    {
+                        @(ViewBag.InterfaceType + " Role")
+                    }
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="@actionMethod" method="post">
+                <div class="modal-body" id="modelContainer">
+
+                    <div class="form-group">
+                        <input type="hidden" asp-for="roleId" />
+                        <label for="txtRole">Role Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <input type="text" asp-for="role" name="Role" class="form-control" id="txtRole" placeholder="Enter Role">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="footerContainer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-save="modal">@ViewBag.InterfaceType</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/js/HTMLControlHandler.js"></script>
+@if (isFieldToBeDisabled)
+{
+    <script>
+        $(document).ready(function () {
+            DisableAllControlsById("modelContainer");
+        });
+    </script>
+
+}
+

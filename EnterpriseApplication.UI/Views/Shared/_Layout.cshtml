@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using EnterpriseApplication.Infrastructure.Security.Model
-@using EnterpriseApplication.UI.Utilities.Constants
+@using EnterpriseApplication.Application.Identity.Entities
+@using EnterpriseApplication.Application.Identity.Constants
 @inject SignInManager<ApplicationUser> signInManager
 @inject UserManager<ApplicationUser> userManager
 @{
@@ -113,7 +113,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-compact nav-legacy text-sm" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
-                        @if (User.IsInRole(RoleConstant.SUPERADMIN))
+                        @if (User.IsInRole(Role.SUPERADMIN))
                         {
                             <li class="nav-header">Admin Panel</li>
                             <li class="nav-item has-treeview">
@@ -138,9 +138,9 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../examples/e-commerce.html" class="nav-link">
+                                        <a asp-controller="UserRolePermission" asp-action="RoleWisePermission" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>User Role Assignment</p>
+                                            <p>User Role Permission</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -150,15 +150,9 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../examples/project-add.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Menu User Assignment</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a href="../examples/project-edit.html" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Menu Role Assignment</p>
+                                            <p>Menu Role Permission</p>
                                         </a>
                                     </li>
                                 </ul>

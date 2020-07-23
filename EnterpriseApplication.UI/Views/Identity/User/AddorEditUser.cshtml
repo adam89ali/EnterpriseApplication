@@ -1,0 +1,89 @@
+﻿@using EnterpriseApplication.UI.Constants
+@model EnterpriseApplication.Application.Identity.Services.Users.Get.UserDto
+@{
+    var isFieldToBeDisabled = (ViewBag.InterfaceType == InterfaceType.VIEW || ViewBag.InterfaceType == InterfaceType.REMOVE);
+    var actionMethod = string.Empty;
+    if (ViewBag.InterfaceType == InterfaceType.ADD) { actionMethod = "AddUser";}
+    else if (ViewBag.InterfaceType == InterfaceType.EDIT) { actionMethod = "EditUser"; }
+    else if (ViewBag.InterfaceType == InterfaceType.REMOVE) { actionMethod = "RemoveUser";}
+
+}
+
+
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelTitle">
+                   @if (ViewBag.InterfaceType == InterfaceType.REMOVE)
+                   {
+                        @("Are you sure you want to remove this?")
+                   }
+                   else
+                   {
+                       @(ViewBag.InterfaceType + " User")
+                   }
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="@actionMethod" method="post">
+                <div class="modal-body" id="modelContainer">
+
+                    <div class="form-group">
+                        <input type="hidden" asp-for="userId" />
+                        <label for="txtUser">User Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <input type="text" asp-for="userName" name="userName" class="form-control" id="txtUser" placeholder="Enter user name">
+                        </div>                          
+                        </div>
+                        <div class="form-group">
+                            <label for="txtEmail">Email address</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
+                                <input type="email" asp-for="email" name="email" autocomplete="new-user" class="form-control" id="txtEmail" placeholder="Enter email">                                
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="txtPassword">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                                <input type="password" name="password" class="form-control" autocomplete="new-password" id="txtPassword" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer" id="footerContainer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-save="modal">@ViewBag.InterfaceType</button>
+                </div>
+            </form>       
+        </div>
+    </div>
+</div>
+<script src="~/js/HTMLControlHandler.js"></script>
+@if (isFieldToBeDisabled)
+{
+    <script>
+        $(document).ready(function () {
+            DisableAllControlsById("modelContainer");
+        });
+    </script>
+
+}
+

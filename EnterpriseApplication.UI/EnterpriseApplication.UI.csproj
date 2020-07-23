@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EnterpriseApplication.Application\EnterpriseApplication.Application.csproj" />
+    <ProjectReference Include="..\EnterpriseApplication.Application.Identity\EnterpriseApplication.Application.Identity.csproj" />
     <ProjectReference Include="..\EnterpriseApplication.Infrastructure\EnterpriseApplication.Infrastructure.csproj" />
   </ItemGroup>
 
@@ -27,6 +27,10 @@
     <Content Update="wwwroot\js\ServerApiHandler.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
 
 </Project>

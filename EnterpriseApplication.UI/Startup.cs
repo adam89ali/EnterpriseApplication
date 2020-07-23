@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnterpriseApplication.Application;
+using EnterpriseApplication.Application.Common;
+using EnterpriseApplication.Application.Identity;
 using EnterpriseApplication.Infrastructure;
 using EnterpriseApplication.UI.Filters;
-using EnterpriseApplication.UI.Utilities.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +29,8 @@ namespace EnterpriseApplication.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
+            //services.AddApplication();
+            services.AddIdentityApplication();
             services.AddInfrastructure(Configuration);
             services.AddControllersWithViews(option =>
             {
@@ -41,7 +43,7 @@ namespace EnterpriseApplication.UI
             {
                 o.ViewLocationFormats.Clear();
                 o.ViewLocationFormats.Add("/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-                o.ViewLocationFormats.Add("/Views/Security/{1}/{0}" + RazorViewEngine.ViewExtension);
+                o.ViewLocationFormats.Add("/Views/Identity/{1}/{0}" + RazorViewEngine.ViewExtension);
                 o.ViewLocationFormats.Add("/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
             });
         }

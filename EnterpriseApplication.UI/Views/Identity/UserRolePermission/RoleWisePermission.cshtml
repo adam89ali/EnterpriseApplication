@@ -1,0 +1,117 @@
+﻿@section customStyle
+{
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/theme/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="~/theme/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+
+    <style>
+        tfoot {
+            display: table-header-group;
+        }
+    </style>
+
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1>
+                    Role Wise Permission
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-secondary">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Roles</label>
+                            <select id="cmbRoles" class="form-control select2bs4" style="width: 100%;">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <select id="dualListBoxUsers" class="duallistbox" multiple="multiple">
+                           
+                        </select>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <!-- DataTables -->
+    <script src="~/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/theme/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="~/theme/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
+    <script src="~/js/ServerApiHandler.js"></script>
+    <script src="~/js/HTMLControlsHelper/Select2BootStrap4Helper.js"></script>
+    <script src="~/js/HTMLControlsHelper/bootstrapDualListboxHelper.js"></script>
+
+    <script>
+        function LoadDualListBox(roleId) {
+            filter = {};
+            filter["roleId"] = roleId;
+            var unGrantedUsers_Response = GetUnGrantedUsers(filter);
+            var grantedUsers_Response = GetGrantedUsers(filter);
+            Promise.all([unGrantedUsers_Response, grantedUsers_Response]).then((response) => {
+                bootstrapDualListboxHelper.clear("dualListBoxUsers");
+                bootstrapDualListboxHelper.LoadData("dualListBoxUsers", response[0], "userId", "userName", false);
+                bootstrapDualListboxHelper.LoadData("dualListBoxUsers", response[1], "userId", "userName",true);
+                //console.log(response[0]);
+            });
+        }
+        function GetUnGrantedUsers(filter)
+        {
+            var serverApi = new ServerApiHandler();
+            var response = serverApi.GetData("@Url.Action("GetUnGrantedUsers", "UserRolePermission")",filter);
+            return response;       
+        }
+        function GetGrantedUsers(filter)
+        {
+            var serverApi = new ServerApiHandler();
+            var response = serverApi.GetData("@Url.Action("GetGrantedUsers", "UserRolePermission")",filter);
+            return response;
+        }
+        function SetUpControlsOnPageLoad()
+        {
+
+            $(document).ready(function () {
+                Select2BootStrap4Helper.Initialize();
+                bootstrapDualListboxHelper.Initialize('UnGranted Users','Granted Users');
+                Select2BootStrap4Helper.AddSelectEvent("cmbRoles", LoadDualListBox);
+            });
+
+
+            var serverApi = new ServerApiHandler();
+            var response = serverApi.GetData("@Url.Action("GetRoles", "UserRolePermission")");
+           response.then(json => {
+               $(document).ready(function () {
+                   Select2BootStrap4Helper.LoadData("cmbRoles", json, "roleId", "role");
+               });
+           });
+
+        }
+        SetUpControlsOnPageLoad();
+    </script>
+
+}

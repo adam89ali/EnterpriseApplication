@@ -6,7 +6,6 @@ using System.Text;
 using MediatR;
 using AutoMapper;
 using FluentValidation;
-using EnterpriseApplication.Application.ValidationConfiguration;
 
 namespace EnterpriseApplication.Application
 {
@@ -15,7 +14,7 @@ namespace EnterpriseApplication.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
