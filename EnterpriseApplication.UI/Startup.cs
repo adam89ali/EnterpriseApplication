@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using EnterpriseApplication.Application;
 using EnterpriseApplication.Application.Common;
 using EnterpriseApplication.Application.Identity;
-using EnterpriseApplication.Infrastructure;
+using EnterpriseApplication.Infrastructure.EFCore;
 using EnterpriseApplication.UI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
